@@ -16,9 +16,10 @@ public class Property {
     private int noOfSites;
     private String accomodationType;
     private float area;
+    
 
     @OneToOne(fetch = FetchType.LAZY)
-    private Place place;
+    private Places place;
     private float price;
     private int likePercentage;
     private int pic_id;
@@ -78,10 +79,10 @@ public class Property {
     public void setReviews(int reviews) {
         this.reviews = reviews;
     }
-    public Place getPlace() {
+    public Places getPlace() {
         return place;
     }
-    public void setPlace(Place place) {
+    public void setPlace(Places place) {
         this.place = place;
     }
 }

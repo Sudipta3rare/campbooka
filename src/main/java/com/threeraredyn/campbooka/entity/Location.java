@@ -5,12 +5,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "places")
-public class Place {
+@Table(name = "locations")
+public class Location {
 
     @Id
     private long id;
-    private String placeName;
+    private String locationName;
     private String countryName;
 
     public long getId() {
@@ -19,11 +19,11 @@ public class Place {
     public void setId(long id) {
         this.id = id;
     }
-    public String getPlaceName() {
-        return placeName;
+    public String getLocationName() {
+        return locationName;
     }
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName;
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
     public String getCountryName() {
         return countryName;

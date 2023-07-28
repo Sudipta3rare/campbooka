@@ -54,7 +54,7 @@ public class SecurityConfiguration {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeHttpRequests().requestMatchers("/auth/login", "/docs/**", "/users").permitAll()
+        http.authorizeHttpRequests().requestMatchers("/auth/signin", "/docs/**", "/users").permitAll()
             .anyRequest().authenticated();
 
         http.exceptionHandling().authenticationEntryPoint((req, resp, e) -> {

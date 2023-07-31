@@ -1,6 +1,7 @@
 package com.threeraredyn.campbooka.serviceimpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,11 @@ public class LocationServiceImpl implements LocationService {
         //     return placeOptional.get();
         // else
         //     return null;
+    }
+
+    @Override
+    public Optional<Location> findById(Long id) {
+        return locationRepository.findById(id);
     }
 
     

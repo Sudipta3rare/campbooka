@@ -1,7 +1,10 @@
 package com.threeraredyn.campbooka.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -9,8 +12,10 @@ import jakarta.persistence.Table;
 public class Places
  {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne
     private Media media;
    
     private int acres;
@@ -18,6 +23,7 @@ public class Places
 
     private int noOfSites;
 
+    @ManyToOne
     private Location location;
 
 

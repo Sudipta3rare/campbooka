@@ -1,16 +1,21 @@
 package com.threeraredyn.campbooka.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "locations")
+@Table(name="locations")
 public class Location {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "location_name")
     private String locationName;
+    @Column(name = "country_name")
     private String countryName;
 
     public long getId() {

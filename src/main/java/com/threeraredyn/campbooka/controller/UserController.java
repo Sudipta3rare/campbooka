@@ -31,4 +31,5 @@ class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
     }
+    
 }

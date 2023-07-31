@@ -2,6 +2,8 @@ package com.threeraredyn.campbooka.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -11,14 +13,16 @@ import jakarta.persistence.Table;
 public class Property {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String propertyName;
     private int noOfSites;
     private String accomodationType;
     private float area;
+    
 
     @OneToOne(fetch = FetchType.LAZY)
-    private Place place;
+    private Places place;
     private float price;
     private int likePercentage;
     private int pic_id;
@@ -78,10 +82,10 @@ public class Property {
     public void setReviews(int reviews) {
         this.reviews = reviews;
     }
-    public Place getPlace() {
+    public Places getPlace() {
         return place;
     }
-    public void setPlace(Place place) {
+    public void setPlace(Places place) {
         this.place = place;
     }
 }

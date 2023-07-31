@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.threeraredyn.campbooka.entity.Places;
 import com.threeraredyn.campbooka.entity.Property;
 import com.threeraredyn.campbooka.jpa.PropertyRepository;
 import com.threeraredyn.campbooka.service.PropertyService;
@@ -18,6 +18,11 @@ public class PropertyServiceImpl implements PropertyService {
 
     public List<Property> findAll() {
         return propertyRepository.findAll();
+    }
+
+    @Override
+    public List<Property> findPropertyByPlaces(Places place) {
+        return propertyRepository.findPropertyByPlace(place);
     }
 
     

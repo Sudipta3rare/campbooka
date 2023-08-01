@@ -51,15 +51,20 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeHttpRequests().requestMatchers("/auth/signin", "/docs/**", "/users").permitAll()
-            .anyRequest().authenticated();
+        http.csrf(csrf -> csrf.disable());
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.exceptionHandling().authenticationEntryPoint((req, resp, e) -> {
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-        });
+        http.authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests
+                        .requestMatchers("/auth/signin", "/docs/**", "/users", "/api/**").permitAll()
+            .anyRequest().authenticated()
+        );
+
+        http.exceptionHandling((exceptionHandling) ->
+            exceptionHandling.authenticationEntryPoint((req, resp, e) -> {
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+            }));
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

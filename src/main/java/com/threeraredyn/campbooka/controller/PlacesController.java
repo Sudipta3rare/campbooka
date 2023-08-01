@@ -39,6 +39,7 @@ public class PlacesController{
     }
 
     @GetMapping("/api/getPlacesByLocation/{locationId}")
+    @ResponseBody
     public List<Places> getPlacesByLocation(@PathVariable Long locationId) {
         Optional<Location> locationOptional = locationService.findById(locationId);
 
@@ -49,6 +50,7 @@ public class PlacesController{
     }
 
     @PostMapping("/api/getPlaceByLocation")
+    @ResponseBody
     public List<Places> placesByLocationId(@RequestBody SearchPlacesDTO searchPlaceDTO){
        Optional<Location> locationOptional = locationService.findById(searchPlaceDTO.getPlaceId());
 

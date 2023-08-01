@@ -26,14 +26,21 @@ public class Places
     @ManyToOne
     private Location location;
 
-
+    private String placeName;
+    
+    public String getPlaceName() {
+        return placeName;
+    }
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
     public int getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
     }
-   public Media getMedia() {
+    public Media getMedia() {
         return media;
     }
     public void setMedia(Media media) {

@@ -26,7 +26,14 @@ public class Places
     @ManyToOne
     private Location location;
 
-
+    private String placeName;
+    
+    public String getPlaceName() {
+        return placeName;
+    }
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
     public int getId() {
         return id;
     }

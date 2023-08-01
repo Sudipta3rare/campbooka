@@ -40,7 +40,7 @@ public class Places
     public void setId(int id) {
         this.id = id;
     }
-   public Media getMedia() {
+    public Media getMedia() {
         return media;
     }
     public void setMedia(Media media) {

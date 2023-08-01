@@ -19,7 +19,7 @@ public class Property {
     private int noOfSites;
     private String accomodationType;
     private float area;
-    
+
 
     @OneToOne(fetch = FetchType.LAZY)
     private Places place;

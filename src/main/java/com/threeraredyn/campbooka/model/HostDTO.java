@@ -1,6 +1,6 @@
 package com.threeraredyn.campbooka.model;
 
-public class UserDTO {
+public class HostDTO {
     
     private String name;
     private String email;
@@ -31,4 +31,5 @@ public class UserDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+   
 }

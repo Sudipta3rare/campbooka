@@ -1,15 +1,17 @@
 package com.threeraredyn.campbooka.entity;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,9 +22,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @OneToOne
+    private Role role;
+
     private int profilePic;
     private String firstName;
     private String middleName;
+    private String lastName;
     private String email;
     private String facebookId;
     private String street;
@@ -62,6 +68,12 @@ public class User implements UserDetails {
     }
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     public String getEmail() {
         return email;
@@ -153,10 +165,17 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Role getRole() {
+        return role;
+    }
+    public void setRole(Role role) {
+        this.role = role;
+    }
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        return  Arrays.asList(new SimpleGrantedAuthority("ROLE_" + role.getName()));
     }
     @Override
     public String getUsername() {
@@ -177,7 +196,6 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-    
+    }      
     
 }

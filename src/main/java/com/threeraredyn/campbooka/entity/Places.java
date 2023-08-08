@@ -13,7 +13,7 @@ public class Places
  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     private Media media;
@@ -34,10 +34,10 @@ public class Places
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
-    public int getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public Media getMedia() {

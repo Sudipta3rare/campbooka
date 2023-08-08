@@ -17,6 +17,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 
 @Component
 public class JwtTokenUtil {
@@ -44,6 +45,9 @@ public class JwtTokenUtil {
         catch(UnsupportedJwtException e) {
             LOGGER.error("JWT is not supported", e);
         }
+        catch(SignatureException e) {
+            LOGGER.warn("Unauthorized Access Blocked: JWT Signature Mismatch");
+        }
         return false;
     }
 
@@ -59,7 +63,7 @@ public class JwtTokenUtil {
      
     public String generateAccessToken(User user) {
         return Jwts.builder()
-                .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
+                .setSubject(String.format("%s,%s,%s", user.getId(), user.getEmail(), user.getRole().getName()))
                 .setIssuer("Campbooka")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))

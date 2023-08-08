@@ -13,6 +13,7 @@ public class Places
  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @ManyToOne
@@ -34,6 +35,7 @@ public class Places
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
+
     public Long getId() {
         return id;
     }

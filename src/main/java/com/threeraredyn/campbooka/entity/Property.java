@@ -19,8 +19,9 @@ public class Property {
     private int noOfSites;
     private String accomodationType;
     private float area;
+    private String descrip;
 
-
+ 
     @OneToOne(fetch = FetchType.LAZY)
     private Places place;
     private float price;
@@ -87,5 +88,11 @@ public class Property {
     }
     public void setPlace(Places place) {
         this.place = place;
+    }
+    public String getDescrip() {
+        return descrip;
+    }
+    public void setDescrip(String descrip) {
+        this.descrip = descrip;
     }
 }

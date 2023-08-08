@@ -18,13 +18,13 @@ public class Property {
     private String propertyName;
     private int noOfSites;
     private String accomodationType;
-    private float area;
+    private double area;
     private String descrip;
 
  
     @OneToOne(fetch = FetchType.LAZY)
     private Places place;
-    private float price;
+    private double price;
     private int likePercentage;
     private int pic_id;
     private int reviews;
@@ -53,16 +53,16 @@ public class Property {
     public void setAccomodationType(String accomodationType) {
         this.accomodationType = accomodationType;
     }
-    public float getArea() {
+    public double getArea() {
         return area;
     }
-    public void setArea(float area) {
+    public void setArea(double area) {
         this.area = area;
     }
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     public int getLikePercentage() {

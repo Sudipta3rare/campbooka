@@ -13,5 +13,5 @@ public interface PlacesService {
     
     public Optional<Places> findById(long id);
     public List<Places> findByLocation(Location location);
-
+    public Optional<Places> findByPlaceName(String placeName);
 }

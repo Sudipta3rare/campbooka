@@ -12,7 +12,7 @@ import com.threeraredyn.campbooka.entity.Places;
 public interface PlacesRepository extends JpaRepository<Places, Long> {
 
     public Optional<Places> findById(int id);
-
+    public Optional<Places> findByPlaceName(String placeName);
     public List<Places> findByLocation(Location location);
 
   

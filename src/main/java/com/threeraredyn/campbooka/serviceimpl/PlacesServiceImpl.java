@@ -29,4 +29,9 @@ public class PlacesServiceImpl implements PlacesService{
             return placeRepository.findByLocation(location);
         }
 
+        @Override
+        public Optional<Places> findByPlaceName(String placeName) {
+            return placeRepository.findByPlaceName(placeName);
+        }
+
     }

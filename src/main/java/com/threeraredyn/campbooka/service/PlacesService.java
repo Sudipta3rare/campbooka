@@ -13,5 +13,7 @@ public interface PlacesService {
     
     public Optional<Places> findById(long id);
     public List<Places> findByLocation(Location location);
-
+    public boolean checkAlreadyExists(String placeName);
+    public void save(Places places);
+    public void saveAll(List<Places> placesList);
 }

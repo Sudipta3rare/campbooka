@@ -12,7 +12,7 @@ import com.threeraredyn.campbooka.jpa.PlacesRepository;
 import com.threeraredyn.campbooka.service.PlacesService;
 
 @Service
-public class PlacesServiceImpl implements PlacesService{
+public class PlacesServiceImpl implements PlacesService {
 
         @Autowired
         private PlacesRepository placeRepository;
@@ -27,6 +27,21 @@ public class PlacesServiceImpl implements PlacesService{
         @Override
         public List<Places> findByLocation(Location location) {
             return placeRepository.findByLocation(location);
+        }
+
+        @Override
+        public boolean checkAlreadyExists(String placeName) {
+            return placeRepository.existsByPlaceName(placeName);
+        }
+
+        @Override
+        public void save(Places places) {
+            placeRepository.save(places);
+        }
+
+        @Override
+        public void saveAll(List<Places> places) {
+            placeRepository.saveAll(places);
         }
 
     }

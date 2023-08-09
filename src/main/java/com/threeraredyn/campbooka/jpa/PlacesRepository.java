@@ -13,8 +13,9 @@ public interface PlacesRepository extends JpaRepository<Places, Long> {
 
     public Optional<Places> findById(int id);
     public Optional<Places> findByPlaceName(String placeName);
-    public List<Places> findByLocation(Location location);
+    public boolean existsByPlaceName(String placeName);
 
+    public List<Places> findByLocation(Location location);
   
     
 }

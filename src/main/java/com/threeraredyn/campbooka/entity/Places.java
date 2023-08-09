@@ -19,7 +19,7 @@ public class Places
     @ManyToOne
     private Media media;
    
-    private int acres;
+    private double acres;
     private String descrip;
 
     private int noOfSites;
@@ -48,10 +48,10 @@ public class Places
     public void setMedia(Media media) {
         this.media = media;
     }
-    public int getAcres() {
+    public double getAcres() {
         return acres;
     }
-    public void setAcres(int acres) {
+    public void setAcres(double acres) {
         this.acres = acres;
     }
     public String getDescrip() {

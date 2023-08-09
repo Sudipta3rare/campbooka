@@ -32,6 +32,7 @@ public class PlacesServiceImpl implements PlacesService {
         @Override
         public Optional<Places> findByPlaceName(String placeName) {
             return placeRepository.findByPlaceName(placeName);
+        }
         public boolean checkAlreadyExists(String placeName) {
             return placeRepository.existsByPlaceName(placeName);
         }

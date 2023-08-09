@@ -33,5 +33,16 @@ public class UserServiceImpl implements UserService {
     public boolean checkAlreadyExists(String username) {
         return userRepository.existsByEmail(username);
     }
+
+    @Override
+    public User findById(Long id) {
+        
+        Optional<User> userOptional = userRepository.findById(id);
+        
+        if(!userOptional.isPresent())
+            return null;
+        
+        return userOptional.get();
+    }
     
 }

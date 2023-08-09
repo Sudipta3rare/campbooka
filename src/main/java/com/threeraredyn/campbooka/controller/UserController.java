@@ -1,6 +1,7 @@
 package com.threeraredyn.campbooka.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,16 @@ class UserController {
     public void signUp(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
+    }
+
+    @GetMapping("/api/host/{id}")
+    public User getHostById(@PathVariable Long id) {
+        return userService.findById(id);
+    }
+
+    @GetMapping("/api/user/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.findById(id);
     }
     
 }

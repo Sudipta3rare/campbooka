@@ -12,4 +12,7 @@ public interface PropertyService {
     
     public List<Property> findAll();
     public List<Property> findPropertyByPlaces(Places place);
+    public boolean checkAlreadyExists(String propertyName, String placeName);
+    public void save(Property property);
+    public void saveAll(List<Property> propertyList);
 }

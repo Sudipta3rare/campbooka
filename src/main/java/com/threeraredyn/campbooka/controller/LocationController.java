@@ -12,7 +12,7 @@ import com.threeraredyn.campbooka.entity.Location;
 import com.threeraredyn.campbooka.service.LocationService;
 
 @RestController
-public class LoactionController {
+public class LocationController {
     
     @Autowired
     private LocationService locationService;

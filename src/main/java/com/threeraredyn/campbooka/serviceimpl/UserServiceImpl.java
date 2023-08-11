@@ -1,10 +1,12 @@
 package com.threeraredyn.campbooka.serviceimpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.threeraredyn.campbooka.entity.Role;
 import com.threeraredyn.campbooka.entity.User;
 import com.threeraredyn.campbooka.jpa.UserRepository;
 import com.threeraredyn.campbooka.service.UserService;
@@ -43,6 +45,11 @@ public class UserServiceImpl implements UserService {
             return null;
         
         return userOptional.get();
+    }
+
+    @Override
+    public List<User> findAllByRole(Role role) {
+        return userRepository.findAllByRole(role);
     }
     
 }

@@ -11,6 +11,6 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     
     public List<Property> findAll();
     public List<Property> findPropertyByPlace(Places place);
-    public boolean existsByPropertyNameAndPlaces(String propertyName, Places places);
+    public boolean existsByPropertyNameAndPlace(String propertyName, Places places);
 
 }

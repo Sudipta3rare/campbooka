@@ -36,7 +36,7 @@ public class PropertyServiceImpl implements PropertyService {
         if(!placesOptional.isPresent())
             return false;
 
-        return propertyRepository.existsByPropertyNameAndPlaces(propertyName, placesOptional.get());
+        return propertyRepository.existsByPropertyNameAndPlace(propertyName, placesOptional.get());
     }
 
     @Override
@@ -48,4 +48,15 @@ public class PropertyServiceImpl implements PropertyService {
     public void saveAll(List<Property> propertyList) {
         propertyRepository.saveAll(propertyList);
     }
+
+    @Override
+    public Property findById(Long id) {
+        Optional<Property> propertyOptional = propertyRepository.findById(id);
+        if(!propertyOptional.isPresent())
+            return null;
+        
+        return propertyOptional.get();
+    }
+
+    
 }

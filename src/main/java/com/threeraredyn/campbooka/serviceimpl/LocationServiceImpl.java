@@ -18,7 +18,8 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Location> searchLocation(String searchWord) {
-        return locationRepository.findTop3ByLocationNameOrCountryName(searchWord, searchWord);
+        return locationRepository.findByLocationNameLike(searchWord + "%");
+        // % symbol is used as wildcard char..
     }
 
     @Override

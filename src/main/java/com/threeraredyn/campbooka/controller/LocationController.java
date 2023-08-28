@@ -3,6 +3,7 @@ package com.threeraredyn.campbooka.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,16 +19,18 @@ public class LocationController {
     private LocationService locationService;
 
     @GetMapping("/api/searchLocation/{searchWord}")
-    @ResponseBody
-    public List<Location> searchLocation(@PathVariable String searchWord) {
-        return locationService.searchLocation(searchWord);
+    public ResponseEntity<?> searchLocation(@PathVariable String searchWord) {
+        List<Location> locationList = locationService.searchLocation(searchWord);
+        if(locationList == null)
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(locationList);
     }
 
     
     @GetMapping("/api/getLocationByName/{namePlace}")
-    @ResponseBody
-    public List<Location> searchPlaceByName(@PathVariable String namePlace){
-        return locationService.getLocationByName(namePlace);
+    public ResponseEntity<?> searchPlaceByName(@PathVariable String namePlace) {
+        List<Location> locationList =  locationService.getLocationByName(namePlace);
+        return ResponseEntity.ok().body(locationList);
     }
     
 }

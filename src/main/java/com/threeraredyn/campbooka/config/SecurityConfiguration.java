@@ -57,11 +57,11 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/host/**").hasAnyRole("HOST", "ADMIN")
-                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/auth/signin", "/auth/signup", "/docs/**", "/users").permitAll()
-            .anyRequest().authenticated()
+                        // .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // .requestMatchers("/api/host/**").hasAnyRole("HOST", "ADMIN")
+                        // .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/auth/signin", "/auth/signup", "/docs/**", "/users", "/api/**").permitAll()
+            .anyRequest().authenticated() 
         );
 
         http.exceptionHandling((exceptionHandling) ->

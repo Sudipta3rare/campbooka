@@ -10,6 +10,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 
    
    
-    public List<Location> findTop3ByLocationNameOrCountryName(String searchWord, String searchWord2);
+    public List<Location> findByLocationNameLike(String searchWord);
     public List<Location> findByLocationName(String placeName);
 }

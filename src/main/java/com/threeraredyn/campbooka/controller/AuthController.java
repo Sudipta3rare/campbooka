@@ -50,7 +50,9 @@ public class AuthController {
             authResponseDTO.setEmail(authRequestDTO.getEmail());
             authResponseDTO.setAccessToken(accessToken);
 
-            return ResponseEntity.ok().body(authResponseDTO);
+            return ResponseEntity.ok()
+                .header("Token", authResponseDTO.getAccessToken())
+                .body(authResponseDTO);
         }
         catch(BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

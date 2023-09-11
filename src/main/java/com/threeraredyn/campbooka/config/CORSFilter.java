@@ -23,6 +23,7 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Control-Length, X-Requested-With");
+        response.setHeader("Access-Control-Expose-Headers", "*");
         chain.doFilter(req, response);
     }
 

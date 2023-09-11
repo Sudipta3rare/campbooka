@@ -2,6 +2,7 @@ package com.threeraredyn.campbooka.model;
 
 public class PlacesDTO {
     
+    private Long id;
     private String placeName;
     private double acres;
     private String description;
@@ -29,5 +30,12 @@ public class PlacesDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }    
 }

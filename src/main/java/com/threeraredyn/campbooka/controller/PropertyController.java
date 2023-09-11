@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.threeraredyn.campbooka.entity.Places;
 import com.threeraredyn.campbooka.entity.Property;
 import com.threeraredyn.campbooka.model.PropertyByIdDTO;
-import com.threeraredyn.campbooka.model.PropertyDTO;
+import com.threeraredyn.campbooka.model.PropertyRequestDTO;
+import com.threeraredyn.campbooka.model.PropertyResponseDTO;
 import com.threeraredyn.campbooka.service.PlacesService;
 import com.threeraredyn.campbooka.service.PropertyService;
 
@@ -35,19 +37,20 @@ public class PropertyController {
         return propertyService.findAll();
     }
 
-    @PostMapping("/api/postPropertyFromPlaceId")
-    public List<Property> getPropertiesFromPlace(@RequestBody PropertyByIdDTO propertyByIdDTO ) {
+    @GetMapping("/api/postPropertyFromPlace/{id}")
+    public ResponseEntity<?> getPropertiesFromPlace(@PathVariable Long id) {
 
-        Optional<Places> placesOptional = placesService.findById(propertyByIdDTO.getPlaceId());
+        Optional<Places> placesOptional = placesService.findById(id);
 
-        if(placesOptional.isPresent())
-            return propertyService.findPropertyByPlaces(placesOptional.get());
-        else
-            return null;
+        if(placesOptional.isPresent()) {
+            List<PropertyResponseDTO> propertyList = propertyService.findPropertyByPlaces(placesOptional.get());
+            return ResponseEntity.ok().body(propertyList);
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/api/host/addNewProperty")
-    public ResponseEntity<?> addNewProperty(@RequestBody PropertyDTO propertyDTO) {
+    public ResponseEntity<?> addNewProperty(@RequestBody PropertyRequestDTO propertyDTO) {
 
         if(propertyService.checkAlreadyExists(propertyDTO.getPropertyName(), propertyDTO.getPlaceName()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -69,7 +72,7 @@ public class PropertyController {
     }
 
     @PostMapping("/api/host/addNewProperties")
-    public ResponseEntity<?> addNewProperties(@RequestBody List<PropertyDTO> propertyDTOList) {
+    public ResponseEntity<?> addNewProperties(@RequestBody List<PropertyRequestDTO> propertyDTOList) {
 
         List<Property> propertyList = propertyDTOList.stream()
             .filter(prop -> !propertyService.checkAlreadyExists(prop.getPropertyName(), prop.getPlaceName()))

@@ -1,6 +1,6 @@
 package com.threeraredyn.campbooka.model;
 
-public class PropertyDTO {
+public class PropertyRequestDTO {
 
     private String propertyName;
     private String propertyType;

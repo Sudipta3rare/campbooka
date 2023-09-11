@@ -31,15 +31,13 @@ public class PlacesController{
     private LocationService locationService;
 
     @GetMapping("/api/getPlacesById/{id}")
-    @ResponseBody
-    public Places getPlacesById(@PathVariable long id) {
+    public ResponseEntity<?> getPlacesById(@PathVariable long id) {
 
         Optional<Places> placesOptional = placesService.findById(id);
 
-        if(placesOptional.isPresent())
-            return placesOptional.get();
-        else
+        if(!placesOptional.isPresent())
             return null; 
+        return ResponseEntity.ok().body(placesOptional.get());            
     }
 
     @GetMapping("/api/getPlacesByLocation/{locationId}")
@@ -54,18 +52,27 @@ public class PlacesController{
     }
 
     @PostMapping("/api/getPlaceByLocation")
-    @ResponseBody
-    public List<Places> placesByLocationId(@RequestBody SearchPlacesDTO searchPlaceDTO){
+    public ResponseEntity<?> placesByLocationId(@RequestBody SearchPlacesDTO searchPlaceDTO){
        Optional<Location> locationOptional = locationService.findById(searchPlaceDTO.getPlaceId());
 
-        if(locationOptional.isPresent())
-            return placesService.findByLocation(locationOptional.get());
+        if(locationOptional.isPresent()) {
+
+            List<PlacesDTO> placesDTOs = placesService.findByLocation(locationOptional.get()).stream().map(place -> {
+                PlacesDTO placesDTO = new PlacesDTO();
+                placesDTO.setId(place.getId());
+                placesDTO.setPlaceName(place.getPlaceName());
+                placesDTO.setDescription(place.getDescrip());
+                placesDTO.setAcres(place.getAcres());
+                return placesDTO;
+            }).collect(Collectors.toList());
+
+            return ResponseEntity.ok().body(placesDTOs);
+        }
         else
-            return null;
+            return ResponseEntity.noContent().build();
     } 
 
     @PostMapping("/api/admin/addNewPlace")
-    @ResponseBody
     public ResponseEntity<?> addNewPlace(@RequestBody PlacesDTO placesDTO) {
 
         if(placesService.checkAlreadyExists(placesDTO.getPlaceName()))
@@ -100,5 +107,21 @@ public class PlacesController{
         
         placesService.saveAll(eligiblePlaces);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/api/getActivitiesByPlace/{id}")
+    public ResponseEntity<?> getActivityListByPlaceId(@PathVariable Long id) {
+        Optional<Places> placesOptional = placesService.findById(id);
+        if(placesOptional.isPresent()) 
+            return ResponseEntity.ok().body(placesOptional.get().getActivitySet());
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/api/getFeaturesByPlace/{id}")
+    public ResponseEntity<?> getFeatureListByPlaceId(@PathVariable Long id) {
+        Optional<Places> placesOptional = placesService.findById(id);
+        if(placesOptional.isPresent()) 
+            return ResponseEntity.ok().body(placesOptional.get().getFeatureSet());
+        return ResponseEntity.noContent().build();
     }
 }

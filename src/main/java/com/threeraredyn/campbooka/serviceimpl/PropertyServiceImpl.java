@@ -2,6 +2,7 @@ package com.threeraredyn.campbooka.serviceimpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.threeraredyn.campbooka.entity.Places;
 import com.threeraredyn.campbooka.entity.Property;
 import com.threeraredyn.campbooka.jpa.PlacesRepository;
 import com.threeraredyn.campbooka.jpa.PropertyRepository;
+import com.threeraredyn.campbooka.model.PropertyResponseDTO;
 import com.threeraredyn.campbooka.service.PropertyService;
 
 @Service
@@ -26,8 +28,23 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<Property> findPropertyByPlaces(Places place) {
-        return propertyRepository.findPropertyByPlace(place);
+    public List<PropertyResponseDTO> findPropertyByPlaces(Places place) {
+
+        return propertyRepository
+                    .findPropertyByPlace(place)
+                    .stream().map(property -> {
+            PropertyResponseDTO propertyResponseDTO = new PropertyResponseDTO();
+            propertyResponseDTO.setId(property.getId());
+            propertyResponseDTO.setDescription(property.getDescrip());
+            propertyResponseDTO.setAccomodationType(property.getAccomodationType());
+            propertyResponseDTO.setArea(property.getArea());
+            propertyResponseDTO.setPropertyName(property.getPropertyName());
+            propertyResponseDTO.setLikePercentage(property.getLikePercentage());
+            propertyResponseDTO.setPrice(property.getPrice());
+            propertyResponseDTO.setReviews(property.getReviews());
+            return propertyResponseDTO;
+
+        }).collect(Collectors.toList());
     }
 
     @Override

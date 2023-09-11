@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.threeraredyn.campbooka.entity.Role;
 import com.threeraredyn.campbooka.entity.User;
+import com.threeraredyn.campbooka.model.UserDashboardResponseDTO;
+import com.threeraredyn.campbooka.model.UserProfileRequestDTO;
 import com.threeraredyn.campbooka.service.UserService;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RestController
@@ -63,5 +66,13 @@ class UserController {
         role.setId(3L);
         role.setName("USER");
         return userService.findAllByRole(role);
+    }
+
+    @PostMapping("/api/user/getDashboardProfile")
+    public ResponseEntity<?> getUserDashboardProfile(@RequestBody UserProfileRequestDTO userProfileRequestDTO) {
+        UserDashboardResponseDTO userDashboardResponseDTO = userService.getUserDashboardDetails(userProfileRequestDTO.getEmail());
+        if(userDashboardResponseDTO == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(userDashboardResponseDTO);
     }
 }

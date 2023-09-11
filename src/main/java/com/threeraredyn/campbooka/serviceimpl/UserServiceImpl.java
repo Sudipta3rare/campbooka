@@ -1,5 +1,6 @@
 package com.threeraredyn.campbooka.serviceimpl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.threeraredyn.campbooka.entity.Role;
 import com.threeraredyn.campbooka.entity.User;
 import com.threeraredyn.campbooka.jpa.UserRepository;
+import com.threeraredyn.campbooka.model.UserDashboardResponseDTO;
 import com.threeraredyn.campbooka.service.UserService;
 
 @Service
@@ -50,6 +52,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllByRole(Role role) {
         return userRepository.findAllByRole(role);
+    }
+
+    @Override
+    public UserDashboardResponseDTO getUserDashboardDetails(String username) {
+        Optional<User> userOptional = userRepository.findByEmail(username);
+
+        if(userOptional.isPresent()) {
+            UserDashboardResponseDTO userDashboardResponseDTO = new UserDashboardResponseDTO();
+            userDashboardResponseDTO.setBio(userOptional.get().getBio());
+            userDashboardResponseDTO.setCity(userOptional.get().getCity());
+            userDashboardResponseDTO.setEmail(userOptional.get().getEmail());
+            userDashboardResponseDTO.setJoinDate(null); // To be changed later!
+            userDashboardResponseDTO.setName(userOptional.get().getFirstName());
+            return userDashboardResponseDTO; 
+        }
+        return null;
     }
     
 }

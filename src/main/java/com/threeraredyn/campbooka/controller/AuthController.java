@@ -90,7 +90,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/api/admin/signupHost")
+    @PostMapping("/auth/signupHost")
     public ResponseEntity<?> signUpHost(@RequestBody HostDTO hostDTO) {
 
         if(userService.checkAlreadyExists(hostDTO.getEmail()))

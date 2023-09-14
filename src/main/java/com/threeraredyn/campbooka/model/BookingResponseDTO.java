@@ -6,7 +6,7 @@ public class BookingResponseDTO {
     
     private String imageUrl;
     private String propertyName;
-    private Date bookingDate;
+    private String bookingDate;
     private String camperName;
     private double payableAmount;
 
@@ -22,10 +22,10 @@ public class BookingResponseDTO {
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
     }
-    public Date getBookingDate() {
+    public String getBookingDate() {
         return bookingDate;
     }
-    public void setBookingDate(Date bookingDate) {
+    public void setBookingDate(String bookingDate) {
         this.bookingDate = bookingDate;
     }
     public String getCamperName() {

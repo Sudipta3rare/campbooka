@@ -1,5 +1,6 @@
 package com.threeraredyn.campbooka.serviceimpl;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingResponseDTO> getBookingHistory(Long id) {
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
         List<Booking> bookingList = bookingRepository.findAllById(
                                         userService.findById(id).getPropertySet()
                                             .stream().map(p -> p.getId())
@@ -63,7 +66,7 @@ public class BookingServiceImpl implements BookingService {
         
         return bookingList.stream().map(b -> {
             BookingResponseDTO bookingResponseDTO = new BookingResponseDTO();
-            bookingResponseDTO.setBookingDate(b.getStartDate());
+            bookingResponseDTO.setBookingDate(simpleDateFormat.format(b.getStartDate()));
             bookingResponseDTO.setCamperName(b.getCamper().getFirstName() + " " + b.getCamper().getLastName());
             bookingResponseDTO.setImageUrl(null);
             bookingResponseDTO.setPayableAmount(b.getProperty().getPrice());

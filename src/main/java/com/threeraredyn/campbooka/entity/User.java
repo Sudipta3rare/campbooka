@@ -2,6 +2,7 @@ package com.threeraredyn.campbooka.entity;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -24,6 +28,12 @@ public class User implements UserDetails {
 
     @OneToOne
     private Role role;
+
+    @ManyToMany
+    @JoinTable(name = "user_properties",
+        joinColumns =  @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"))
+    private Set<Property> propertySet;
 
     private int profilePic;
     private String firstName;
@@ -171,6 +181,12 @@ public class User implements UserDetails {
     }
     public void setRole(Role role) {
         this.role = role;
+    }
+    public Set<Property> getPropertySet() {
+        return propertySet;
+    }
+    public void setPropertySet(Set<Property> propertySet) {
+        this.propertySet = propertySet;
     }
     
     @Override

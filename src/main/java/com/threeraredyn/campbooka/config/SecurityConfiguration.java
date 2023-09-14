@@ -60,7 +60,7 @@ public class SecurityConfiguration {
                         // .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // .requestMatchers("/api/host/**").hasAnyRole("HOST", "ADMIN")
                         // .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/auth/signin", "/auth/signup", "/docs/**", "/users", "/api/**").permitAll()
+                        .requestMatchers("/auth/*", "/docs/**", "/users", "/api/**").permitAll()
             .anyRequest().authenticated() 
         );
 

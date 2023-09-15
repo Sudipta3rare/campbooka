@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.threeraredyn.campbooka.model.BookingDTO;
+import com.threeraredyn.campbooka.model.HostRequestDTO;
 import com.threeraredyn.campbooka.service.BookingService;
 
 @RestController
@@ -27,9 +28,9 @@ public class BookingController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-    @GetMapping("/api/host/getBookingHistory/{id}")
-    public ResponseEntity<?> getBookingHistory(@PathVariable Long id) {
-        return ResponseEntity.ok().body(bookingService.getBookingHistory(id));
+    @PostMapping("/api/host/getBookingHistory")
+    public ResponseEntity<?> getBookingHistory(@RequestBody HostRequestDTO hostRequestDTO) {
+        return ResponseEntity.ok().body(bookingService.getBookingHistory(hostRequestDTO.getEmail()));
     }
     
 }

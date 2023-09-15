@@ -12,6 +12,7 @@ import com.threeraredyn.campbooka.entity.Role;
 import com.threeraredyn.campbooka.entity.User;
 import com.threeraredyn.campbooka.model.UserDashboardResponseDTO;
 import com.threeraredyn.campbooka.model.UserProfileRequestDTO;
+import com.threeraredyn.campbooka.model.UserProfileUpdateRequestDTO;
 import com.threeraredyn.campbooka.service.UserService;
 
 import java.util.List;
@@ -74,5 +75,35 @@ class UserController {
         if(userDashboardResponseDTO == null)
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok().body(userDashboardResponseDTO);
+    }
+
+    @PostMapping("/api/user/updateProfileData")
+    public ResponseEntity<?> updateUserProfile(@RequestBody UserProfileUpdateRequestDTO userProfileUpdateRequestDTO) {
+        
+        if(!userService.checkAlreadyExists(userProfileUpdateRequestDTO.getUsername()))
+            ResponseEntity.badRequest().build();
+
+        User camper = userService.findByUsername(userProfileUpdateRequestDTO.getUsername());
+
+        camper.setBio(userProfileUpdateRequestDTO.getBio());
+        camper.setCamperUrl(userProfileUpdateRequestDTO.getCamperUrl());
+        camper.setCity(userProfileUpdateRequestDTO.getCity());
+        camper.setEmail(userProfileUpdateRequestDTO.getEmailAddress());
+        camper.setFacebookId(userProfileUpdateRequestDTO.getFacebookUrl());
+        camper.setFirstName(userProfileUpdateRequestDTO.getFirstName());
+        camper.setInstagram(userProfileUpdateRequestDTO.getInstagramUrl());
+        camper.setLastName(userProfileUpdateRequestDTO.getLastName());
+        camper.setMiddleName(userProfileUpdateRequestDTO.getMiddleName());
+        camper.setPersonalUrl(userProfileUpdateRequestDTO.getPersonalUrl());
+        camper.setPhoneno(userProfileUpdateRequestDTO.getPhoneNumber());
+        camper.setPublicLocation(userProfileUpdateRequestDTO.getPublicLocation());
+        camper.setState(userProfileUpdateRequestDTO.getState());
+        camper.setStreet(userProfileUpdateRequestDTO.getStreetAddress());
+        camper.setSuiteNo(userProfileUpdateRequestDTO.getSuitNo());
+        camper.setTwitter(userProfileUpdateRequestDTO.getTwitterUrl());
+        camper.setZipcode(userProfileUpdateRequestDTO.getZipcode());
+
+        userService.save(camper);
+        return ResponseEntity.ok().build();
     }
 }

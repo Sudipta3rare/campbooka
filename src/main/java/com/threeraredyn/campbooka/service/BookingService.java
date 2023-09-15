@@ -11,5 +11,5 @@ import com.threeraredyn.campbooka.model.BookingResponseDTO;
 public interface BookingService {
     
     public Boolean bookProperty(BookingDTO bookingDTO);
-    public List<BookingResponseDTO> getBookingHistory(Long id);
+    public List<BookingResponseDTO> getBookingHistory(String email);
 }

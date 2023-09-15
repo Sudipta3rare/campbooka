@@ -55,12 +55,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponseDTO> getBookingHistory(Long id) {
+    public List<BookingResponseDTO> getBookingHistory(String email) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        List<Booking> bookingList = bookingRepository.findAllById(
-                                        userService.findById(id).getPropertySet()
+        List<Booking> bookingList = bookingRepository.findByIdIn(
+                                        userService.findByUsername(email)
+                                        .getPropertySet()
                                             .stream().map(p -> p.getId())
                                             .collect(Collectors.toList()));
         

@@ -37,7 +37,7 @@ public class PropertyController {
         return propertyService.findAll();
     }
 
-    @GetMapping("/api/postPropertyFromPlace/{id}")
+    @GetMapping("/api/public/postPropertyFromPlace/{id}")
     public ResponseEntity<?> getPropertiesFromPlace(@PathVariable Long id) {
 
         Optional<Places> placesOptional = placesService.findById(id);

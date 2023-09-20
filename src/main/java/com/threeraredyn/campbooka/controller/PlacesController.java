@@ -51,7 +51,7 @@ public class PlacesController{
             return null;
     }
 
-    @PostMapping("/api/getPlaceByLocation")
+    @PostMapping("/api/public/getPlaceByLocation")
     public ResponseEntity<?> placesByLocationId(@RequestBody SearchPlacesDTO searchPlaceDTO){
        Optional<Location> locationOptional = locationService.findById(searchPlaceDTO.getPlaceId());
 
@@ -109,7 +109,7 @@ public class PlacesController{
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/api/getActivitiesByPlace/{id}")
+    @GetMapping("/api/public/getActivitiesByPlace/{id}")
     public ResponseEntity<?> getActivityListByPlaceId(@PathVariable Long id) {
         Optional<Places> placesOptional = placesService.findById(id);
         if(placesOptional.isPresent()) 
@@ -117,7 +117,7 @@ public class PlacesController{
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/api/getFeaturesByPlace/{id}")
+    @GetMapping("/api/public/getFeaturesByPlace/{id}")
     public ResponseEntity<?> getFeatureListByPlaceId(@PathVariable Long id) {
         Optional<Places> placesOptional = placesService.findById(id);
         if(placesOptional.isPresent()) 

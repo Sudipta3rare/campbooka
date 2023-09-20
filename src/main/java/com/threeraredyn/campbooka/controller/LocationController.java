@@ -18,7 +18,7 @@ public class LocationController {
     @Autowired
     private LocationService locationService;
 
-    @GetMapping("/api/searchLocation/{searchWord}")
+    @GetMapping("/api/public/searchLocation/{searchWord}")
     public ResponseEntity<?> searchLocation(@PathVariable String searchWord) {
         List<Location> locationList = locationService.searchLocation(searchWord);
         if(locationList == null)

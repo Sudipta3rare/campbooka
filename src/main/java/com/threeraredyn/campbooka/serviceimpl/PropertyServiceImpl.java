@@ -5,8 +5,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.threeraredyn.campbooka.entity.Places;
@@ -98,7 +96,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public void addNewProperties(List<PropertyRequestDTO> propertyRequestDTOList) {
-        
+
         List<Property> propertyList = propertyRequestDTOList.stream()
             .filter(prop -> !checkAlreadyExists(prop.getPropertyName(), prop.getPlaceName()))
             .map( prop -> {

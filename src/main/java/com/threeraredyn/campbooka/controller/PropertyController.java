@@ -53,20 +53,7 @@ public class PropertyController {
 
         if(propertyService.checkAlreadyExists(propertyDTO.getPropertyName(), propertyDTO.getPlaceName()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
-        Property property = new Property();
-        property.setPropertyName(propertyDTO.getPropertyName());
-        property.setAccomodationType(propertyDTO.getPropertyType());
-        property.setDescrip(propertyDTO.getDescription());
-        property.setArea(propertyDTO.getArea());
-        property.setPrice(propertyDTO.getPrice());
-
-        Optional<Places> placesOptional = placesService.findByPlaceName(propertyDTO.getPlaceName());
-        
-        if(placesOptional.isPresent())
-            property.setPlace(placesOptional.get());
-        
-        propertyService.save(property);
+        propertyService.addNewProperty(propertyDTO);
         return ResponseEntity.ok().build();
     }
 

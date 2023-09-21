@@ -11,6 +11,7 @@ import com.threeraredyn.campbooka.entity.Places;
 import com.threeraredyn.campbooka.entity.Property;
 import com.threeraredyn.campbooka.jpa.PlacesRepository;
 import com.threeraredyn.campbooka.jpa.PropertyRepository;
+import com.threeraredyn.campbooka.model.PropertyRequestDTO;
 import com.threeraredyn.campbooka.model.PropertyResponseDTO;
 import com.threeraredyn.campbooka.service.PropertyService;
 
@@ -73,6 +74,24 @@ public class PropertyServiceImpl implements PropertyService {
             return null;
         
         return propertyOptional.get();
+    }
+
+    @Override
+    public void addNewProperty(PropertyRequestDTO propertyRequestDTO) {
+
+        Property property = new Property();
+        property.setPropertyName(propertyRequestDTO.getPropertyName());
+        property.setAccomodationType(propertyRequestDTO.getPropertyType());
+        property.setDescrip(propertyRequestDTO.getDescription());
+        property.setArea(propertyRequestDTO.getArea());
+        property.setPrice(propertyRequestDTO.getPrice());
+
+        Optional<Places> placesOptional = placesRepository.findByPlaceName(propertyRequestDTO.getPlaceName());
+        
+        if(placesOptional.isPresent())
+            property.setPlace(placesOptional.get());
+        
+        propertyRepository.save(property);
     }
 
     

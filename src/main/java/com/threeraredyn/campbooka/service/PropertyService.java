@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.threeraredyn.campbooka.entity.Places;
 import com.threeraredyn.campbooka.entity.Property;
+import com.threeraredyn.campbooka.model.PropertyRequestDTO;
 import com.threeraredyn.campbooka.model.PropertyResponseDTO;
 
 @Service
@@ -16,4 +17,5 @@ public interface PropertyService {
     public void save(Property property);
     public void saveAll(List<Property> propertyList);
     public Property findById(Long id);
+    public void addNewProperty(PropertyRequestDTO propertyRequestDTO);
 }

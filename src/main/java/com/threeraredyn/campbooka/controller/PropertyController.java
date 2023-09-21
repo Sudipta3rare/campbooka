@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.threeraredyn.campbooka.entity.Places;
 import com.threeraredyn.campbooka.entity.Property;
-import com.threeraredyn.campbooka.model.PropertyByIdDTO;
 import com.threeraredyn.campbooka.model.PropertyRequestDTO;
 import com.threeraredyn.campbooka.model.PropertyResponseDTO;
 import com.threeraredyn.campbooka.service.PlacesService;

@@ -11,6 +11,5 @@ import com.threeraredyn.campbooka.entity.Location;
 public interface LocationService {
     
     public List<Location> searchLocation(String searchWord);
-    public List<Location> getLocationByName(String placeName);
     public Optional<Location> findById(Long id);
 }

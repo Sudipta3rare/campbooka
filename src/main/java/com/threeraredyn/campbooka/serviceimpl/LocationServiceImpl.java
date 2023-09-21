@@ -18,26 +18,12 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Location> searchLocation(String searchWord) {
+        // % symbol is used as wildcard character.
         return locationRepository.findByLocationNameLike(searchWord + "%");
-        // % symbol is used as wildcard char..
-    }
-
-    @Override
-    public List<Location> getLocationByName(String placeName) {
-        
-        // Optional<Place> placeOptional = placeRepository.findByPlaceName(placeName);
-        return locationRepository.findByLocationName(placeName);
-
-        // if(placeOptional.isPresent())
-        //     return placeOptional.get();
-        // else
-        //     return null;
     }
 
     @Override
     public Optional<Location> findById(Long id) {
         return locationRepository.findById(id);
     }
-
-    
 }

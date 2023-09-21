@@ -23,13 +23,5 @@ public class LocationController {
         if(locationList == null)
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok().body(locationList);
-    }
-
-    
-    @GetMapping("/api/getLocationByName/{namePlace}")
-    public ResponseEntity<?> searchPlaceByName(@PathVariable String namePlace) {
-        List<Location> locationList =  locationService.getLocationByName(namePlace);
-        return ResponseEntity.ok().body(locationList);
-    }
-    
+    }    
 }

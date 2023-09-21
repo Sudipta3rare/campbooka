@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,22 +31,15 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<PropertyResponseDTO> findPropertyByPlaces(Places place) {
+        ModelMapper modelMapper = new ModelMapper();
 
-        return propertyRepository
-                    .findPropertyByPlace(place)
-                    .stream().map(property -> {
-            PropertyResponseDTO propertyResponseDTO = new PropertyResponseDTO();
-            propertyResponseDTO.setId(property.getId());
-            propertyResponseDTO.setDescription(property.getDescrip());
-            propertyResponseDTO.setAccomodationType(property.getAccomodationType());
-            propertyResponseDTO.setArea(property.getArea());
-            propertyResponseDTO.setPropertyName(property.getPropertyName());
-            propertyResponseDTO.setLikePercentage(property.getLikePercentage());
-            propertyResponseDTO.setPrice(property.getPrice());
-            propertyResponseDTO.setReviews(property.getReviews());
-            return propertyResponseDTO;
-
-        }).collect(Collectors.toList());
+        return propertyRepository.findPropertyByPlace(place)
+               .stream()
+               .map(property -> {
+                    PropertyResponseDTO propertyResponseDTO = 
+                        modelMapper.map(property, PropertyResponseDTO.class);
+                    return propertyResponseDTO;
+                }).collect(Collectors.toList());
     }
 
     @Override
@@ -79,12 +73,12 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public void addNewProperty(PropertyRequestDTO propertyRequestDTO) {
 
-        Property property = new Property();
-        property.setPropertyName(propertyRequestDTO.getPropertyName());
-        property.setAccomodationType(propertyRequestDTO.getPropertyType());
-        property.setDescrip(propertyRequestDTO.getDescription());
-        property.setArea(propertyRequestDTO.getArea());
-        property.setPrice(propertyRequestDTO.getPrice());
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper
+            .createTypeMap(PropertyRequestDTO.class, Property.class)
+            .addMappings(mapper -> mapper.map(src -> src.getPropertyType(), Property::setAccomodationType));
+        
+        Property property = modelMapper.map(propertyRequestDTO, Property.class);
 
         Optional<Places> placesOptional = placesRepository.findByPlaceName(propertyRequestDTO.getPlaceName());
         
@@ -97,25 +91,21 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public void addNewProperties(List<PropertyRequestDTO> propertyRequestDTOList) {
 
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper
+            .createTypeMap(PropertyRequestDTO.class, Property.class)
+            .addMappings(mapper -> mapper.map(src -> src.getPropertyType(), Property::setAccomodationType));
+
         List<Property> propertyList = propertyRequestDTOList.stream()
             .filter(prop -> !checkAlreadyExists(prop.getPropertyName(), prop.getPlaceName()))
             .map( prop -> {
-                Property property = new Property();
-                property.setPropertyName(prop.getPropertyName());
-                property.setAccomodationType(prop.getPropertyType());
-                property.setDescrip(prop.getDescription());
-                property.setArea(prop.getArea());
-                property.setPrice(prop.getPrice());
-
+                Property property = modelMapper.map(prop, Property.class);
                 Optional<Places> placesOptional = placesRepository.findByPlaceName(prop.getPlaceName());
-        
                 if(placesOptional.isPresent())
                     property.setPlace(placesOptional.get());
                 return property;
             }).collect(Collectors.toList());
         
         propertyRepository.saveAll(propertyList);
-    }
-
-    
+    }  
 }

@@ -6,7 +6,7 @@ public interface PropertyCardProjection {
     Integer getNoOfSites();
     String getAccomodationType();
     Double getArea();
-    String getDescrip();
+    String getDescription();
     Double getPrice();
     Integer getLikePercentage();
     Integer getReviews();

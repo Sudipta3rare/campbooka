@@ -1,7 +1,5 @@
 package com.threeraredyn.campbooka.model;
 
-import java.util.Date;
-
 public class BookingResponseDTO {
     
     private String imageUrl;

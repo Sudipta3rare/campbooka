@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.threeraredyn.campbooka.entity.Places;
@@ -92,6 +94,29 @@ public class PropertyServiceImpl implements PropertyService {
             property.setPlace(placesOptional.get());
         
         propertyRepository.save(property);
+    }
+
+    @Override
+    public void addNewProperties(List<PropertyRequestDTO> propertyRequestDTOList) {
+        
+        List<Property> propertyList = propertyRequestDTOList.stream()
+            .filter(prop -> !checkAlreadyExists(prop.getPropertyName(), prop.getPlaceName()))
+            .map( prop -> {
+                Property property = new Property();
+                property.setPropertyName(prop.getPropertyName());
+                property.setAccomodationType(prop.getPropertyType());
+                property.setDescrip(prop.getDescription());
+                property.setArea(prop.getArea());
+                property.setPrice(prop.getPrice());
+
+                Optional<Places> placesOptional = placesRepository.findByPlaceName(prop.getPlaceName());
+        
+                if(placesOptional.isPresent())
+                    property.setPlace(placesOptional.get());
+                return property;
+            }).collect(Collectors.toList());
+        
+        propertyRepository.saveAll(propertyList);
     }
 
     

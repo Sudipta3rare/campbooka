@@ -59,28 +59,7 @@ public class PropertyController {
 
     @PostMapping("/api/host/addNewProperties")
     public ResponseEntity<?> addNewProperties(@RequestBody List<PropertyRequestDTO> propertyDTOList) {
-
-        List<Property> propertyList = propertyDTOList.stream()
-            .filter(prop -> !propertyService.checkAlreadyExists(prop.getPropertyName(), prop.getPlaceName()))
-            .map( prop -> {
-                Property property = new Property();
-                property.setPropertyName(prop.getPropertyName());
-                property.setAccomodationType(prop.getPropertyType());
-                property.setDescrip(prop.getDescription());
-                property.setArea(prop.getArea());
-                property.setPrice(prop.getPrice());
-
-                Optional<Places> placesOptional = placesService.findByPlaceName(prop.getPlaceName());
-        
-                if(placesOptional.isPresent())
-                    property.setPlace(placesOptional.get());
-                return property;
-            }).collect(Collectors.toList());
-
-        if(propertyList.isEmpty())
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        
-        propertyService.saveAll(propertyList);
+        propertyService.addNewProperties(propertyDTOList);
         return ResponseEntity.ok().build();
     }
 }

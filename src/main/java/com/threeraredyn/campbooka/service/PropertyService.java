@@ -18,4 +18,5 @@ public interface PropertyService {
     public void saveAll(List<Property> propertyList);
     public Property findById(Long id);
     public void addNewProperty(PropertyRequestDTO propertyRequestDTO);
+    public void addNewProperties(List<PropertyRequestDTO> propertyRequestDTOs);
 }

@@ -2,7 +2,6 @@ package com.threeraredyn.campbooka.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,47 +52,13 @@ public class PropertyController {
 
         if(propertyService.checkAlreadyExists(propertyDTO.getPropertyName(), propertyDTO.getPlaceName()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
-        Property property = new Property();
-        property.setPropertyName(propertyDTO.getPropertyName());
-        property.setAccomodationType(propertyDTO.getPropertyType());
-        property.setDescrip(propertyDTO.getDescription());
-        property.setArea(propertyDTO.getArea());
-        property.setPrice(propertyDTO.getPrice());
-
-        Optional<Places> placesOptional = placesService.findByPlaceName(propertyDTO.getPlaceName());
-        
-        if(placesOptional.isPresent())
-            property.setPlace(placesOptional.get());
-        
-        propertyService.save(property);
+        propertyService.addNewProperty(propertyDTO);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/api/host/addNewProperties")
     public ResponseEntity<?> addNewProperties(@RequestBody List<PropertyRequestDTO> propertyDTOList) {
-
-        List<Property> propertyList = propertyDTOList.stream()
-            .filter(prop -> !propertyService.checkAlreadyExists(prop.getPropertyName(), prop.getPlaceName()))
-            .map( prop -> {
-                Property property = new Property();
-                property.setPropertyName(prop.getPropertyName());
-                property.setAccomodationType(prop.getPropertyType());
-                property.setDescrip(prop.getDescription());
-                property.setArea(prop.getArea());
-                property.setPrice(prop.getPrice());
-
-                Optional<Places> placesOptional = placesService.findByPlaceName(prop.getPlaceName());
-        
-                if(placesOptional.isPresent())
-                    property.setPlace(placesOptional.get());
-                return property;
-            }).collect(Collectors.toList());
-
-        if(propertyList.isEmpty())
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        
-        propertyService.saveAll(propertyList);
+        propertyService.addNewProperties(propertyDTOList);
         return ResponseEntity.ok().build();
     }
 }

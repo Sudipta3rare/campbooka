@@ -8,7 +8,6 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
         typeMapper.addMappings(mapper -> {
             mapper.using(idToProperty).map(BookingDTO::getPropertyId, Booking::setProperty);
             mapper.using(idToCamper).map(BookingDTO::getCamperId, Booking::setCamper);
-        } );
+        });
 
         Booking booking = new Booking();
 
@@ -72,7 +71,23 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingResponseDTO> getBookingHistory(String email) {
 
+        ModelMapper modelMapper = new ModelMapper();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        TypeMap<Booking, BookingResponseDTO> typeMapper = 
+            modelMapper.createTypeMap(Booking.class, BookingResponseDTO.class);
+        
+        typeMapper
+            .addMappings(mapping -> {
+                mapping.map(
+                    src -> simpleDateFormat.format(src.getStartDate()), BookingResponseDTO::setBookingDate);
+                mapping.map(
+                    src -> src.getCamper().getFirstName() + " " + src.getCamper().getLastName(), BookingResponseDTO::setCamperName);
+                mapping.map(
+                    src -> src.getProperty().getPrice(), BookingResponseDTO::setPayableAmount);
+                mapping.map(
+                    src -> src.getProperty().getPropertyName(), BookingResponseDTO::setPropertyName);
+            });      
 
         List<Booking> bookingList = 
             bookingRepository
@@ -81,12 +96,7 @@ public class BookingServiceImpl implements BookingService {
                 .stream().map(p -> p.getId()).collect(Collectors.toList()));
         
         return bookingList.stream().map(b -> {
-            BookingResponseDTO bookingResponseDTO = new BookingResponseDTO();
-            bookingResponseDTO.setBookingDate(simpleDateFormat.format(b.getStartDate()));
-            bookingResponseDTO.setCamperName(b.getCamper().getFirstName() + " " + b.getCamper().getLastName());
-            bookingResponseDTO.setImageUrl(null);
-            bookingResponseDTO.setPayableAmount(b.getProperty().getPrice());
-            bookingResponseDTO.setPropertyName(b.getProperty().getPropertyName());
+            BookingResponseDTO bookingResponseDTO = modelMapper.map(b, BookingResponseDTO.class);
             return bookingResponseDTO;
         }).collect(Collectors.toList());                        
     }

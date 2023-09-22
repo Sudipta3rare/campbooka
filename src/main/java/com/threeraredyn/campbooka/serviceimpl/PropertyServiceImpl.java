@@ -79,7 +79,6 @@ public class PropertyServiceImpl implements PropertyService {
             .addMappings(mapper -> mapper.map(src -> src.getPropertyType(), Property::setAccomodationType));
         
         Property property = modelMapper.map(propertyRequestDTO, Property.class);
-
         Optional<Places> placesOptional = placesRepository.findByPlaceName(propertyRequestDTO.getPlaceName());
         
         if(placesOptional.isPresent())

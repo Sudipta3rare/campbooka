@@ -3,6 +3,7 @@ package com.threeraredyn.campbooka.serviceimpl;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,12 +40,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        
         Optional<User> userOptional = userRepository.findById(id);
         
-        if(!userOptional.isPresent())
+        if(! userOptional.isPresent())
             return null;
-        
         return userOptional.get();
     }
 
@@ -55,18 +54,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDashboardResponseDTO getUserDashboardDetails(String username) {
+        ModelMapper modelMapper = new ModelMapper();
         Optional<User> userOptional = userRepository.findByEmail(username);
 
-        if(userOptional.isPresent()) {
-            UserDashboardResponseDTO userDashboardResponseDTO = new UserDashboardResponseDTO();
-            userDashboardResponseDTO.setBio(userOptional.get().getBio());
-            userDashboardResponseDTO.setCity(userOptional.get().getCity());
-            userDashboardResponseDTO.setEmail(userOptional.get().getEmail());
-            userDashboardResponseDTO.setJoinDate(null); // To be changed later!
-            userDashboardResponseDTO.setName(userOptional.get().getFirstName());
-            return userDashboardResponseDTO; 
-        }
-        return null;
+        if(! userOptional.isPresent())
+            return null;
+        
+        UserDashboardResponseDTO userDashboardResponseDTO = modelMapper.map(userOptional.get(), UserDashboardResponseDTO.class);
+        userDashboardResponseDTO.setJoinDate(null); // To be changed later!
+        return userDashboardResponseDTO; 
     }
     
 }

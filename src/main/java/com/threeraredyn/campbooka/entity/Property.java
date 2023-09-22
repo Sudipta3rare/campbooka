@@ -19,7 +19,7 @@ public class Property {
     private int noOfSites;
     private String accomodationType;
     private double area;
-    private String descrip;
+    private String description;
 
  
     @OneToOne(fetch = FetchType.LAZY)
@@ -89,10 +89,10 @@ public class Property {
     public void setPlace(Places place) {
         this.place = place;
     }
-    public String getDescrip() {
-        return descrip;
+    public String getDescription() {
+        return description;
     }
-    public void setDescrip(String descrip) {
-        this.descrip = descrip;
+    public void setDescription(String descrip) {
+        this.description = descrip;
     }
 }

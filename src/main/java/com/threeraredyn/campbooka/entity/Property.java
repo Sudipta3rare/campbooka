@@ -1,10 +1,14 @@
 package com.threeraredyn.campbooka.entity;
 
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -24,6 +28,10 @@ public class Property {
  
     @OneToOne(fetch = FetchType.LAZY)
     private Places place;
+
+    @ManyToMany(mappedBy = "propertySet", cascade = CascadeType.ALL)
+    private Set<User> hostSet;
+
     private double price;
     private int likePercentage;
     private int pic_id;
@@ -94,5 +102,11 @@ public class Property {
     }
     public void setDescription(String descrip) {
         this.description = descrip;
+    }
+    public Set<User> getHostSet() {
+        return hostSet;
+    }
+    public void setHostSet(Set<User> hostSet) {
+        this.hostSet = hostSet;
     }
 }

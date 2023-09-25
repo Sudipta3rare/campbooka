@@ -6,6 +6,7 @@ public class PropertyRequestDTO {
     private String propertyType;
     private String description;
     private String placeName;
+    private String hostEmail;
     private double area;
     private double price;
 
@@ -45,5 +46,10 @@ public class PropertyRequestDTO {
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
-    
+    public String getHostEmail() {
+        return hostEmail;
+    }
+    public void setHostId(String hostEmail) {
+        this.hostEmail = hostEmail;
+    }
 }

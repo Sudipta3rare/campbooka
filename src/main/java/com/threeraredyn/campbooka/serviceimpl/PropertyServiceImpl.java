@@ -2,6 +2,7 @@ package com.threeraredyn.campbooka.serviceimpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.threeraredyn.campbooka.entity.Places;
 import com.threeraredyn.campbooka.entity.Property;
+import com.threeraredyn.campbooka.entity.User;
 import com.threeraredyn.campbooka.jpa.PlacesRepository;
 import com.threeraredyn.campbooka.jpa.PropertyRepository;
+import com.threeraredyn.campbooka.jpa.UserRepository;
 import com.threeraredyn.campbooka.model.PropertyRequestDTO;
 import com.threeraredyn.campbooka.model.PropertyResponseDTO;
 import com.threeraredyn.campbooka.service.PropertyService;
@@ -23,7 +26,10 @@ public class PropertyServiceImpl implements PropertyService {
     private PropertyRepository propertyRepository;
 
     @Autowired
-    private PlacesRepository placesRepository; 
+    private PlacesRepository placesRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Property> findAll() {
         return propertyRepository.findAll();
@@ -79,10 +85,22 @@ public class PropertyServiceImpl implements PropertyService {
             .addMappings(mapper -> mapper.map(src -> src.getPropertyType(), Property::setAccomodationType));
         
         Property property = modelMapper.map(propertyRequestDTO, Property.class);
+
         Optional<Places> placesOptional = placesRepository.findByPlaceName(propertyRequestDTO.getPlaceName());
-        
         if(placesOptional.isPresent())
             property.setPlace(placesOptional.get());
+
+        Optional<User> hostOptional = userRepository.findByEmail(propertyRequestDTO.getHostEmail());
+
+        if(hostOptional.isPresent()) {
+            
+            if(hostOptional.get().getPropertySet() == null)
+                hostOptional.get().setPropertySet(Set.of(property));
+            else
+                hostOptional.get().getPropertySet().add(property);
+
+            property.setHostSet(Set.of(hostOptional.get()));
+        }
         
         propertyRepository.save(property);
     }

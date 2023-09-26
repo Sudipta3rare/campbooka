@@ -1,5 +1,9 @@
 package com.threeraredyn.campbooka.serviceimpl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 
 import com.threeraredyn.campbooka.entity.Role;
@@ -20,6 +26,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Value("${campbooka.project.path}")
+    private String projectPath;
+
+    @Value("${campbooka.project.folder.host}")
+    private String hostFolderName;
+
+    @Value("${campbooka.project.folder.camper}")
+    private String camperFolderName;
 
     @Override
     public User findByUsername(String username) {
@@ -75,5 +90,34 @@ public class UserServiceImpl implements UserService {
         userDashboardResponseDTO.setJoinDate(null); // To be changed later!
         return userDashboardResponseDTO; 
     }
+
+    @Override
+    public ByteArrayResource getCamperImage(String filename) throws NoSuchFileException, IOException {
+        ByteArrayResource inputStream = new
+        ByteArrayResource (
+            Files.readAllBytes(
+                Paths.get(
+                    projectPath + 
+                    String.format("/assets/%s/", camperFolderName) + 
+                    filename + ".png"
+                )
+            )
+        );
+        return inputStream;
+    }   
     
+    @Override
+    public ByteArrayResource getHostImage(String filename) throws NoSuchFileException, IOException {
+        ByteArrayResource inputStream = new
+        ByteArrayResource (
+            Files.readAllBytes(
+                Paths.get(
+                    projectPath 
+                    + String.format("/assets/%s/", hostFolderName) 
+                    + filename + ".png"
+                )
+            )
+        );
+        return inputStream;
+    }
 }

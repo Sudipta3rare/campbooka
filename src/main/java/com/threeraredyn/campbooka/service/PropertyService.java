@@ -1,6 +1,10 @@
 package com.threeraredyn.campbooka.service;
 
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
+
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 
 import com.threeraredyn.campbooka.entity.Places;
@@ -19,4 +23,5 @@ public interface PropertyService {
     public Property findById(Long id);
     public void addNewProperty(PropertyRequestDTO propertyRequestDTO);
     public void addNewProperties(List<PropertyRequestDTO> propertyRequestDTOs);
+    public ByteArrayResource getPropertyImage(String filename) throws NoSuchFileException, IOException;
 }
